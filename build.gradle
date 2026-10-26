@@ -123,8 +123,13 @@ tasks.withType(JavaCompile) {
     options.compilerArgs += ['-Xlint:unchecked']
 }
 
+// Ghidra-Rare: no runtime dependencies to bundle, and a Ghidra install that already holds
+// several same-named jars (other extensions) would make this task fail on duplicates.
+copyDependencies.enabled = false
+
 // Exclude additional files from the built extension
 buildExtension {
+    exclude 'test/**', 'tools/**'
     exclude 'data/**'
     exclude '.vscode/**'
     exclude '.devcontainer/**'
