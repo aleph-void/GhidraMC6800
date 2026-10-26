@@ -23,9 +23,8 @@ public class EmulatorMC68HC11Test extends AbstractEmulatorTest {
         super("MC68HC11:BE:16:default");
     }
 
-    // TODO(siggi): Test Y instructions.
-    // TODO(siggi): Test BRSET/BRCLR instructions.
-    // TODO(siggi): Test BSET/BCLR instructions.
+    // The Y instructions, BRSET/BRCLR and BSET/BCLR are tested in EmulatorMC68HC11BitTest and
+    // EmulatorMC68HC11FixesTest, and exhaustively by the Ghidra-Rare suite in test/.
 
     @Test
     public void LDA_Y() {
@@ -290,7 +289,8 @@ public class EmulatorMC68HC11Test extends AbstractEmulatorTest {
         stepFrom(0x0000);
 
         assertEquals((byte) 0x84, readByte(0x1008));
-        assertEquals(CC.N, getCC() & (CC.N | CC.Z | CC.V | CC.C));
+        // N = 1, C = 0, V = N xor C = 1.
+        assertEquals(CC.N | CC.V, getCC() & (CC.N | CC.Z | CC.V | CC.C));
     }
 
     @Test
@@ -304,7 +304,8 @@ public class EmulatorMC68HC11Test extends AbstractEmulatorTest {
         stepFrom(0x0000);
 
         assertEquals(0x40, readByte(0x1010));
-        assertEquals(CC.C, getCC() & (CC.N | CC.Z | CC.V | CC.C));
+        // C = 1, N = 0, V = N xor C = 1.
+        assertEquals(CC.C | CC.V, getCC() & (CC.N | CC.Z | CC.V | CC.C));
     }
 
     @Test
