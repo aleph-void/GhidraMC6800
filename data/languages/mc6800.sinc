@@ -17,6 +17,14 @@ define alignment=1;
 
 @define SWI_VECTOR  "0xFFFA"
 
+# The value the CC register shows to TPA and to the stack.  CC keeps only the six defined flags
+# (and, on the HC11, S and X); the MC6800, MC6801 and HD6301 read bits 7 and 6 as 1.
+@ifdef HAS_Y_REGISTER
+@define CCBYTE "CC"
+@else
+@define CCBYTE "(CC | 0xC0)"
+@endif
+
 define space RAM     type=ram_space      size=2  default;
 define space register type=register_space size=1;
 
@@ -47,6 +55,14 @@ define bitrange
     I=CC[4,1] # I: IRQ interrupt masked
     H=CC[5,1] # H: Half carry flag
 ;
+
+@ifdef HAS_Y_REGISTER
+# MC68HC11 only.
+define bitrange
+    XM=CC[6,1]  # X: XIRQ interrupt masked (can be cleared by software, never set)
+    SD=CC[7,1]  # S: STOP disable
+;
+@endif
 
 define token opbyte (8)
     op        = (0,7)
@@ -135,6 +151,18 @@ EAX: imm8,X is imm8 & X
 ################################################################
 # Macros
 ################################################################
+
+# Load CC from a byte (TAP, RTI).  Only the defined flags exist; on the HC11 the X bit
+# can be cleared by software but never set.
+macro loadCC(v)
+{
+@ifdef HAS_Y_REGISTER
+    local keepX:1 = (CC & v) & 0x40;
+    CC = (v & 0xBF) | keepX;
+@else
+    CC = v & 0x3F;
+@endif
+}
 
 macro setNZFlags(result)
 {
@@ -374,10 +402,13 @@ macro Pull2(reg, op)
 macro PushEntireState()
 {
     Push2(S, &:2 inst_next); # return PC address
+@ifdef HAS_Y_REGISTER
+    Push2(S, Y);
+@endif
     Push2(S, X);
     Push1(S, A);
     Push1(S, B);
-    Push1(S, CC);
+    Push1(S, $(CCBYTE));
 }
 
 ################################################################
@@ -396,12 +427,12 @@ macro PushEntireState()
 
 :TAP        is op=0x06
 {
-    CC = A & 0x1F;
+    loadCC(A);
 }
 
 :TPA        is op=0x07
 {
-    A = CC;
+    A = $(CCBYTE);
 }
 
 :INX        is op=0x08
@@ -755,10 +786,15 @@ macro PushEntireState()
 :RTI        is op=0x3B
 {
     local addr:2;
-    Pull1(S, CC);
+    local ccIn:1;
+    Pull1(S, ccIn);
+    loadCC(ccIn);
     Pull1(S, B);
     Pull1(S, A);
     Pull2(S, X);
+@ifdef HAS_Y_REGISTER
+    Pull2(S, Y);
+@endif
     Pull2(S, addr);
     return [addr];
 }
