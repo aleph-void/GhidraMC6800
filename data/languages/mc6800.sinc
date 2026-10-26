@@ -15,7 +15,9 @@
 define endian=big;
 define alignment=1;
 
+@ifndef SWI_VECTOR
 @define SWI_VECTOR  "0xFFFA"
+@endif
 
 # The value the CC register shows to TPA and to the stack.  CC keeps only the six defined flags
 # (and, on the HC11, S and X); the MC6800, MC6801 and HD6301 read bits 7 and 6 as 1.
@@ -808,9 +810,10 @@ macro PushEntireState()
 {
     PushEntireState();
     I = 1;
-    # TODO(siggi): This doesn't look right - missing indirection?
-    tmp:2 = $(SWI_VECTOR);
-    call [tmp];
+    # Enter the handler whose address is stored at the SWI vector.
+    local vec:2 = $(SWI_VECTOR);
+    local handler:2 = *:2 vec;
+    call [handler];
 }
 
 ################################################################

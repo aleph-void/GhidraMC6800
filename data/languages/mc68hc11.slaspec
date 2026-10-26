@@ -15,6 +15,8 @@
 @define HAS_D_REGISTER "1"
 @define HAS_2_BYTE_JSR_JMP "1"
 @define HAS_Y_REGISTER "1"
+# The HC11 vector table differs from the 6800 family: SWI is at 0xFFF6.
+@define SWI_VECTOR "0xFFF6"
 
 @include "mc6800.sinc"
 @include "mc6801.sinc"
