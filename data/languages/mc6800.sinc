@@ -599,33 +599,16 @@ macro PushEntireState()
 
 :DAA        is op=0x19
 {
-    local highA:1 = A >> 4;
-    local lowA:1  = A & 0x0F;
-    local cc1 = (C == 1 | highA > 9 | (highA > 8) & (lowA > 9));
-    local cc2 = (H == 1 | lowA > 9);
-
-    if ( cc1 & cc2 )
-    goto <case1>;
-    if ( cc1 )
-    goto <case2>;
-    if ( cc2 )
-    goto <case3>;
-    goto <exitDAA>;
-
-    <case1>
-    C = carry(A, 0x66);
-    A = A + 0x66;
-    goto <exitDAA>;
-    <case2>
-    C = carry(A, 0x60);
-    A = A + 0x60;
-    goto <exitDAA>;
-    <case3>
-    C = carry(A, 0x06);
-    A = A + 0x06;
-    goto <exitDAA>;
-
-    <exitDAA>
+    # The correction table of the manuals: +0x06 when the low digit needs it (H set or low
+    # nibble > 9), +0x60 when the high digit needs it (C set, high nibble > 9, or high nibble
+    # 9 with low nibble > 9).  C afterwards is 1 exactly when the +0x60 was added.
+    local hi:1 = A >> 4;
+    local lo:1 = A & 0x0F;
+    local up:1 = (C == 1) || (hi > 9) || ((hi > 8) && (lo > 9));
+    local low:1 = (H == 1) || (lo > 9);
+    local corr:1 = (low * 6) | (up * 0x60);
+    A = A + corr;
+    C = up;
     setNZFlags(A);
 }
 
