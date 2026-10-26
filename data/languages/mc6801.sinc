@@ -31,9 +31,9 @@
     N = D[15, 1];
 }
 
-:BRN        is op=0x21
+# Branch never: a two byte NOP (the offset byte is part of the instruction).
+:BRN REL    is op=0x21; REL
 {
-    # Branch never is an elaborate NOP.
     goto inst_next;
 }
 
