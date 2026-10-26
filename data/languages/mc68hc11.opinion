@@ -1,0 +1,6 @@
+<opinions>
+  <!-- EM_68HC11 = 70 (GNU binutils m68hc11-elf, big endian). -->
+  <constraint loader="Executable and Linking Format (ELF)" compilerSpecID="default">
+    <constraint primary="70" processor="MC68HC11" endian="big" size="16"/>
+  </constraint>
+</opinions>

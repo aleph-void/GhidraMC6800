@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Copyright 2022-2024 Sigurdur Asgeirsson <siggi@sort.is>
+
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+-->
+
+<processor_spec>
+  <programcounter register="PC"/>
+
+  <default_memory_blocks>
+    <!-- The control registers sit at 0x1000 after reset; INIT can move them. -->
+    <memory_block name="Internal Registers" start_address="RAM:0x1000" length="0x40" initialized="false"/>
+  </default_memory_blocks>
+
+  <default_symbols>
+    <symbol name="PORTA" address="0x1000"/>
+    <symbol name="PIOC" address="0x1002"/>
+    <symbol name="PORTC" address="0x1003"/>
+    <symbol name="PORTB" address="0x1004"/>
+    <symbol name="PORTCL" address="0x1005"/>
+    <symbol name="DDRC" address="0x1007"/>
+    <symbol name="PORTD" address="0x1008"/>
+    <symbol name="DDRD" address="0x1009"/>
+    <symbol name="PORTE" address="0x100A"/>
+    <symbol name="CFORC" address="0x100B"/>
+    <symbol name="OC1M" address="0x100C"/>
+    <symbol name="OC1D" address="0x100D"/>
+    <symbol name="TCNT" address="0x100E"/>
+    <symbol name="TIC1" address="0x1010"/>
+    <symbol name="TIC2" address="0x1012"/>
+    <symbol name="TIC3" address="0x1014"/>
+    <symbol name="TOC1" address="0x1016"/>
+    <symbol name="TOC2" address="0x1018"/>
+    <symbol name="TOC3" address="0x101A"/>
+    <symbol name="TOC4" address="0x101C"/>
+    <symbol name="TI4O5" address="0x101E"/>
+    <symbol name="TCTL1" address="0x1020"/>
+    <symbol name="TCTL2" address="0x1021"/>
+    <symbol name="TMSK1" address="0x1022"/>
+    <symbol name="TFLG1" address="0x1023"/>
+    <symbol name="TMSK2" address="0x1024"/>
+    <symbol name="TFLG2" address="0x1025"/>
+    <symbol name="PACTL" address="0x1026"/>
+    <symbol name="PACNT" address="0x1027"/>
+    <symbol name="SPCR" address="0x1028"/>
+    <symbol name="SPSR" address="0x1029"/>
+    <symbol name="SPDR" address="0x102A"/>
+    <symbol name="BAUD" address="0x102B"/>
+    <symbol name="SCCR1" address="0x102C"/>
+    <symbol name="SCCR2" address="0x102D"/>
+    <symbol name="SCSR" address="0x102E"/>
+    <symbol name="SCDR" address="0x102F"/>
+    <symbol name="ADCTL" address="0x1030"/>
+    <symbol name="ADR1" address="0x1031"/>
+    <symbol name="ADR2" address="0x1032"/>
+    <symbol name="ADR3" address="0x1033"/>
+    <symbol name="ADR4" address="0x1034"/>
+    <symbol name="BPROT" address="0x1035"/>
+    <symbol name="OPTION" address="0x1039"/>
+    <symbol name="COPRST" address="0x103A"/>
+    <symbol name="PPROG" address="0x103B"/>
+    <symbol name="HPRIO" address="0x103C"/>
+    <symbol name="INIT" address="0x103D"/>
+    <symbol name="TEST1" address="0x103E"/>
+    <symbol name="CONFIG" address="0x103F"/>
+
+    <symbol name="SCI_VECTOR" address="0xFFD6" entry="true" type="code_ptr"/>
+    <symbol name="SPI_VECTOR" address="0xFFD8" entry="true" type="code_ptr"/>
+    <symbol name="PULSE_ACC_INPUT_EDGE_VECTOR" address="0xFFDA" entry="true" type="code_ptr"/>
+    <symbol name="PULSE_ACC_OVERFLOW_VECTOR" address="0xFFDC" entry="true" type="code_ptr"/>
+    <symbol name="TIMER_OVERFLOW_VECTOR" address="0xFFDE" entry="true" type="code_ptr"/>
+    <symbol name="TIMER_OC5_VECTOR" address="0xFFE0" entry="true" type="code_ptr"/>
+    <symbol name="TIMER_OC4_VECTOR" address="0xFFE2" entry="true" type="code_ptr"/>
+    <symbol name="TIMER_OC3_VECTOR" address="0xFFE4" entry="true" type="code_ptr"/>
+    <symbol name="TIMER_OC2_VECTOR" address="0xFFE6" entry="true" type="code_ptr"/>
+    <symbol name="TIMER_OC1_VECTOR" address="0xFFE8" entry="true" type="code_ptr"/>
+    <symbol name="TIMER_IC3_VECTOR" address="0xFFEA" entry="true" type="code_ptr"/>
+    <symbol name="TIMER_IC2_VECTOR" address="0xFFEC" entry="true" type="code_ptr"/>
+    <symbol name="TIMER_IC1_VECTOR" address="0xFFEE" entry="true" type="code_ptr"/>
+    <symbol name="RTI_VECTOR" address="0xFFF0" entry="true" type="code_ptr"/>
+    <symbol name="IRQ_VECTOR" address="0xFFF2" entry="true" type="code_ptr"/>
+    <symbol name="XIRQ_VECTOR" address="0xFFF4" entry="true" type="code_ptr"/>
+    <symbol name="SWI_VECTOR" address="0xFFF6" entry="true" type="code_ptr"/>
+    <symbol name="ILLEGAL_OPCODE_VECTOR" address="0xFFF8" entry="true" type="code_ptr"/>
+    <symbol name="COP_FAIL_VECTOR" address="0xFFFA" entry="true" type="code_ptr"/>
+    <symbol name="CLOCK_MONITOR_FAIL_VECTOR" address="0xFFFC" entry="true" type="code_ptr"/>
+    <symbol name="RESET_VECTOR" address="0xFFFE" entry="true" type="code_ptr"/>
+  </default_symbols>
+</processor_spec>

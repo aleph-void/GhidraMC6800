@@ -50,7 +50,7 @@
             variant="default"
             version="1.0"
             slafile="hd6301.sla"
-            processorspec="mc6801.pspec"
+            processorspec="hd6301.pspec"
             id="HD6301:BE:16:default">
     <description>HD6301 Microprocessor</description>
     <compiler name="default" spec="mc6800.cspec" id="default"/>
@@ -61,9 +61,12 @@
             variant="default"
             version="1.0"
             slafile="mc68hc11.sla"
-            processorspec="mc6801.pspec"
+            manualindexfile="../manuals/mc68hc11.idx"
+            processorspec="mc68hc11.pspec"
             id="MC68HC11:BE:16:default">
     <description>MC68HC11 Microprocessor</description>
-    <compiler name="default" spec="mc6800.cspec" id="default"/>
+    <compiler name="default" spec="mc68hc11.cspec" id="default"/>
+    <external_name tool="gnu" name="m68hc11"/>
+    <external_name tool="DWARF.register.mapping.file" name="mc68hc11.dwarf"/>
   </language>
 </language_definitions>

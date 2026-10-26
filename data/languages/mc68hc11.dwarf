@@ -1,0 +1,15 @@
+<dwarf>
+  <!-- GCC m68hc11 DWARF register numbers (config/m68hc11/m68hc11.h: HARD_*_REGNUM, DBX_REGISTER_NUMBER
+       is the identity): 0 X, 1 D, 2 Y, 3 SP, 4 PC, 5 A, 6 B, 7 CCR. -->
+  <register_mappings>
+    <register_mapping dwarf="0" ghidra="X"/>
+    <register_mapping dwarf="1" ghidra="D"/>
+    <register_mapping dwarf="2" ghidra="Y"/>
+    <register_mapping dwarf="3" ghidra="S" stackpointer="true"/>
+    <register_mapping dwarf="4" ghidra="PC"/>
+    <register_mapping dwarf="5" ghidra="A"/>
+    <register_mapping dwarf="6" ghidra="B"/>
+    <register_mapping dwarf="7" ghidra="CC"/>
+  </register_mappings>
+  <call_frame_cfa value="3"/>
+</dwarf>
