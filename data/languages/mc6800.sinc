@@ -169,28 +169,32 @@ macro complement(op)
     setNZFlags(op);
 }
 
+# The shifts and rotates all set V = N xor C (after the operation).
 macro logicalShiftRight(op)
 {
     C = op & 1;
     op = op >> 1;
     Z = (op == 0);
     N = 0;
+    V = C;
 }
 
 macro rotateRightWithCarry(op)
 {
-    local carryOut = C << 7;
+    local carryOut:1 = C << 7;
     C = op & 1;
-    op = (op s>> 1) | carryOut;
+    op = (op >> 1) | carryOut;
     setNZFlags(op);
+    V = N ^ C;
 }
 
 macro rotateLeftWithCarry(op)
 {
-    local carryIn = C;
+    local carryIn:1 = C;
     C = op >> 7;
     op = (op << 1) | carryIn;
     setNZFlags(op);
+    V = N ^ C;
 }
 
 # Signed shift right.
@@ -200,6 +204,7 @@ macro arithmeticShiftRight(op)
     C = op & 1;
     op = (op s>> 1);
     setNZFlags(op);
+    V = N ^ C;
 }
 
 macro logicalShiftLeft(op)
@@ -208,6 +213,7 @@ macro logicalShiftLeft(op)
     op = op << 1;
     Z = (op == 0);
     N = (op >> 7);
+    V = N ^ C;
 }
 
 macro increment(op)
