@@ -11,3 +11,6 @@ dist/
 
 /bin/
 /lib/
+
+# Ghidra-Rare test work
+__pycache__/
