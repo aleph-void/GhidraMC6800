@@ -381,18 +381,19 @@ OP1X: imm8,X  is addrMode & X; imm8
 
 :BRSET OP1 MASK REL     is op=0x12 ... & OP1; MASK; REL
 {
-    if ((OP1 & MASK) != 0)
+    # Branch if all the bits selected by the mask are set.
+    if ((~OP1 & MASK) == 0)
         goto REL;
 }
 # This opcode has the wrong addrMode for OP1.
 :BRSET OP1X MASK REL    is op=0x1E ... & OP1X; MASK; REL
 {
-    if ((OP1X & MASK) != 0)
+    if ((~OP1X & MASK) == 0)
         goto REL;
 }
 :BRSET OP1Y MASK REL    is op=0x18; op=0x1E ... & OP1Y; MASK; REL
 {
-    if ((OP1Y & MASK) != 0)
+    if ((~OP1Y & MASK) == 0)
         goto REL;
 }
 
@@ -414,25 +415,28 @@ OP1X: imm8,X  is addrMode & X; imm8
 }
 
 :BSET   OP1 MASK        is op=0x14 ... & OP1; MASK {
-    OP1 = OP1 | MASK;
+    logicalOr(OP1, MASK);
 }
 # This opcode has the wrong addrMode for OP1.
 :BSET OP1X MASK         is op=0x1C ... & OP1X; MASK {
-    OP1X = OP1X | MASK;
+    logicalOr(OP1X, MASK);
 }
 :BSET   OP1Y MASK       is op=0x18; op=0x1C ... & OP1Y; MASK {
-    OP1Y = OP1Y | MASK;
+    logicalOr(OP1Y, MASK);
 }
 
 :BCLR   OP1 MASK        is op=0x15 ... & OP1; MASK {
-    OP1 = OP1 & ~MASK;
+    local inv:1 = ~MASK;
+    logicalAnd(OP1, inv);
 }
 # This opcode has the wrong addrMode for OP1.
 :BCLR OP1X MASK         is op=0x1D ... & OP1X; MASK {
-    OP1X = OP1X & ~MASK;
+    local inv:1 = ~MASK;
+    logicalAnd(OP1X, inv);
 }
 :BCLR   OP1Y MASK       is op=0x18; op=0x1D ... & OP1Y; MASK {
-    OP1Y = OP1Y & ~MASK;
+    local inv:1 = ~MASK;
+    logicalAnd(OP1Y, inv);
 }
 
 :XGDX                   is op=0x8F {
